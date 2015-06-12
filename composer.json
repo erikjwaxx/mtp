@@ -1,0 +1,8 @@
+{
+    "name": "erikjwaxx/mtp",
+    "description": "In which songs are inexplicably pitted against one another in gladiatorial combat.",
+    "require": {
+	"doctrine/orm": "~2.5"
+    },
+    "license": "GPL-3.0+"
+}
