@@ -11,22 +11,48 @@ class Album
   /**
    * @Id
    * @GeneratedValue
-   * @Column(type="integer", precision=7)
+   * @Column(type="integer")
    */
-  protected ?int $id;
-  public function getId(): int { return $id; }
+  private ?int $id;
 
   /**
-   * @OneToMany(targetEntity="Song", mappedBy="album")
+   * @Column(type="string", length=1024)
    */
-  protected $songs;
-  public function getSongs() { return $songs; }
+  private ?string $name;
+  public function getName(): ?string { return $this->name; }
+  public function setName(string $n) { $this->name = $n; }
 
   /**
-   * @OneToOne(targetEntity="Artist")
+   * @OneToMany(targetEntity="Song", mappedBy="album", cascade={"persist"})
    */
-  protected Artist $artist;
-  public function getArtist(): Artist { return $artist; }
+  protected ArrayCollection $songs;
+  public function getSongs(): ArrayCollection { return $this->songs; }
+
+  /**
+   * @ManyToMany(targetEntity="Artist", inversedBy="albums", cascade={"persist"})
+   * @JoinTable(name="album_artists",
+   *     joinColumns={@JoinColumn(name="albumid", referencedColumnName="id")},
+   *     inverseJoinColumns={@JoinColumn(name="artistid", referencedColumnName="id")}
+   * )
+   */
+  protected ArrayCollection $artists;
+  public function getArtists(): ArrayCollection { return $this->artists; }
+
+  public function __construct()
+  {
+    $this->artists = new ArrayCollection();
+    $this->songs   = new ArrayCollection();
+  }
+
+  public function addSong(Song $s)
+  {
+    $this->songs->add($s);
+  }
+
+  public function addArtist(Artist $a)
+  {
+    $this->artists->add($a);
+  }
 }
 
    
