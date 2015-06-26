@@ -6,29 +6,37 @@ use \Doctrine\ORM\EntityManager;
 
 abstract class EntityTest extends \PHPUnit_Extensions_Database_TestCase
 {
-  protected static ?\PDO $dbh;
-  protected static ?EntityManager $em;
-  protected static ?\Doctrine\ORM\EntityRepository $repo;
+  private static ?\PDO $dbh = null;
+  private static $mdCfg;
+  protected static string $testClass = 'CHANGEME';
 
-  public static function setUpBeforeClass(): void
+  public function __construct()
   {
-    $cfg = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration([__DIR__ . "/../Entity"], true);
-    self::$em = EntityManager::create(['pdo' => self::_dbInstance()], $cfg);
-  }
+    parent::__construct();
 
-  private static function _dbInstance(): \PDO
-  {
+    // This has to be done here instead of in setUpBeforeClass to appease the Hack typechecker.
     if (!isset(self::$dbh)) {
       self::$dbh = new \PDO('sqlite:' . TEST_DB, null, null, [\PDO::ATTR_PERSISTENT => true]);
       self::$dbh->exec('PRAGMA foreign_keys = ON');
     }
-
-    return self::$dbh;
   }
-  
+
+  public static function setUpBeforeClass(): void
+  {
+    self::$mdCfg = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration([__DIR__ . "/../Entity"], true);
+  }
+
+  public function setUp(): void
+  {
+    parent::setUp();
+
+    $this->em = EntityManager::create(['pdo' => self::$dbh], self::$mdCfg);
+    $this->repo = $this->em->getRepository(static::$testClass);
+  }
+
   public function getConnection(): \PHPUnit_Extensions_Database_DB_IDatabaseConnection
   {
-    return $this->createDefaultDBConnection(self::_dbInstance());
+    return $this->createDefaultDBConnection(self::$dbh);
   }
 
   public function getDataSet()
