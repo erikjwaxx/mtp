@@ -2,7 +2,7 @@
 
 namespace MTP\Entity;
 
-use \Doctrine\ORM\PersistentCollection;
+use \Doctrine\Common\Collections;
 
 /** 
  * @Entity
@@ -27,9 +27,13 @@ class Artist
   /**
    * @OneToMany(targetEntity="Song", mappedBy="artist")
    */
-  private PersistentCollection $songs;
-  public function getSongs(): PersistentCollection { return $this->songs; }
-  public function addSong(Song $s) { $this->songs->add($s); }
+  private Collections\Collection $songs;
+  public function getSongs(): Collections\Collection { return $this->songs; }
+  public function addSong(Song $s)
+  {
+    $s->setArtist($this);
+    $this->songs->add($s);
+  }
 
   /**
    * @ManyToMany(targetEntity="Album", mappedBy="artists")
@@ -38,14 +42,18 @@ class Artist
    *     inverseJoinColumns={@JoinColumn(name="albumid", referencedColumnName="id")}
    * )
    */
-  private PersistentCollection $albums;
-  public function getAlbums(): PersistentCollection { return $this->albums; }
-  public function addAlbum(Album $a): void { $this->albums->add($a); }
+  private Collections\Collection $albums;
+  public function getAlbums(): Collections\Collection { return $this->albums; }
+  public function addAlbum(Album $a): void
+  {
+    $a->addArtist($this);
+    $this->albums->add($a);
+  }
 
   public function __construct()
   {
-    $this->albums = new PersistentCollection();
-    $this->songs  = new PersistentCollection();
+    $this->albums = new Collections\ArrayCollection();
+    $this->songs  = new Collections\ArrayCollection();
   }
 }
 

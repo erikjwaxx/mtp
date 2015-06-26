@@ -2,6 +2,8 @@
 
 namespace MTP\Entity;
 
+use \Doctrine\Common\Collections;
+
 /** 
  * @Entity
  * @Table(name="albums")
@@ -25,8 +27,8 @@ class Album
   /**
    * @OneToMany(targetEntity="Song", mappedBy="album", cascade={"persist"})
    */
-  protected ArrayCollection $songs;
-  public function getSongs(): ArrayCollection { return $this->songs; }
+  protected Collections\Collection $songs;
+  public function getSongs(): Collections\Collection { return $this->songs; }
 
   /**
    * @ManyToMany(targetEntity="Artist", inversedBy="albums", cascade={"persist"})
@@ -35,8 +37,8 @@ class Album
    *     inverseJoinColumns={@JoinColumn(name="artistid", referencedColumnName="id")}
    * )
    */
-  protected ArrayCollection $artists;
-  public function getArtists(): ArrayCollection { return $this->artists; }
+  protected Collections\Collection $artists;
+  public function getArtists(): Collections\Collection { return $this->artists; }
 
   public function __construct()
   {
