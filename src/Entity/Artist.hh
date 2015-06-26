@@ -25,7 +25,7 @@ class Artist
   public function setName(string $n) { $this->name = $n; }
 
   /**
-   * @OneToMany(targetEntity="Song", mappedBy="artist")
+   * @OneToMany(targetEntity="Song", mappedBy="artist", cascade={"persist"})
    */
   private Collections\Collection $songs;
   public function getSongs(): Collections\Collection { return $this->songs; }
@@ -36,7 +36,7 @@ class Artist
   }
 
   /**
-   * @ManyToMany(targetEntity="Album", mappedBy="artists")
+   * @ManyToMany(targetEntity="Album", mappedBy="artists", cascade={"persist"})
    * @JoinTable(name="album_artists",
    *     joinColumns={@JoinColumn(name="artistid", referencedColumnName="id")},
    *     inverseJoinColumns={@JoinColumn(name="albumid", referencedColumnName="id")}

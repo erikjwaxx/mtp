@@ -42,12 +42,13 @@ class Album
 
   public function __construct()
   {
-    $this->artists = new ArrayCollection();
-    $this->songs   = new ArrayCollection();
+    $this->artists = new Collections\ArrayCollection();
+    $this->songs   = new Collections\ArrayCollection();
   }
 
   public function addSong(Song $s)
   {
+    $s->setAlbum($this);
     $this->songs->add($s);
   }
 

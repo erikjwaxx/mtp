@@ -31,7 +31,6 @@ class Song
   public function setAlbum(Album $a): void
   {
     $this->album = $a;
-    $a->addSong($this);
   }
 
   /**
@@ -43,7 +42,6 @@ class Song
   public function setArtist(Artist $a): void
   {
     $this->artist = $a;
-    $a->addSong($this);
   }
 }
 
