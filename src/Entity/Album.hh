@@ -49,7 +49,6 @@ class Album
   public function addSong(Song $s)
   {
     $s->setAlbum($this);
-    $this->songs->add($s);
   }
 
   public function addArtist(Artist $a)

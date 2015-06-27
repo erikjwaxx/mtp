@@ -62,4 +62,11 @@ abstract class EntityTest extends \PHPUnit_Extensions_Database_TestCase
          ]
       ]);
   }
+
+  protected function assertArraysEqual(array $a, array $b): void
+  {
+      $this->assertArraySubset($a, $b);
+      $this->assertArraySubset($b, $a);
+  }
+
 }

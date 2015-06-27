@@ -32,7 +32,6 @@ class Artist
   public function addSong(Song $s)
   {
     $s->setArtist($this);
-    $this->songs->add($s);
   }
 
   /**

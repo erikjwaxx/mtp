@@ -23,7 +23,7 @@ class Song
   public function setName(string $n): void { $this->name = $n; }
 
   /**
-   * @ManyToOne(targetEntity="Album", inversedBy="songs")
+   * @ManyToOne(targetEntity="Album", inversedBy="songs", cascade={"persist"})
    * @JoinColumn(name="albumid")
    */
   protected ?Album $album;
@@ -31,6 +31,7 @@ class Song
   public function setAlbum(Album $a): void
   {
     $this->album = $a;
+    $a->getSongs()->add($this);
   }
 
   /**
@@ -42,6 +43,7 @@ class Song
   public function setArtist(Artist $a): void
   {
     $this->artist = $a;
+    $a->getSongs()->add($this);
   }
 }
 
