@@ -2,7 +2,8 @@
     "name": "erikjwaxx/mtp",
     "description": "In which songs are inexplicably pitted against one another in gladiatorial combat.",
     "require": {
-	"doctrine/orm": "~2.5"
+	"doctrine/orm": "~2.5",
+	"james-heinrich/getid3": "~1.9"
     },
     "require-dev": {
 	"phpunit/phpunit": "~4.7",
